@@ -16,6 +16,9 @@ _.merge(styles, {
     staged  : {parent: screen},
     unstaged: {parent: screen}
   },
+  textarea : {
+    parent: screen  
+  },
   branchbox: {
     parent: screen
   },
@@ -46,6 +49,8 @@ var list = {
 list.staged.name   = "staged";
 list.unstaged.name = "unstaged";
 
+var textarea = blessed.textarea(styles.textarea);
+
 var branchbox = blessed.box(styles.branchbox);
 
 blessed.listbar(styles.menubar1);
@@ -59,6 +64,7 @@ module.exports = {
   screen   : screen,
   title    : title,
   list     : list,
+  textarea : textarea,
   branchbox: branchbox,
   loading  : loading,
   popup    : popup

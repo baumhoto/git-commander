@@ -47,7 +47,7 @@ module.exports = function (config) {
                 "align": "left",
                 "tags": true,
                 "width": "50%",
-                "height": "100%-6",
+                "height": "50%-6",
                 "interactive": false,
                 "keys": true,
                 "style": {
@@ -67,7 +67,7 @@ module.exports = function (config) {
                 "align": "left",
                 "tags": true,
                 "width": "50%",
-                "height": "100%-6",
+                "height": "50%-6",
                 "interactive": true,
                 "keys": true,
                 "style": {
@@ -79,6 +79,36 @@ module.exports = function (config) {
                     }
                 }
             }
+        },
+        "textarea": {
+            "top": "40%",
+            "left": "left",
+            "width": "100%",
+            "height": "60%-3",
+            "border": "line",
+            "tags": true,
+            "scrollable": true,
+            "mouse": true,
+            "keys": true,
+            "vi": true,
+            "padding": {
+                "left": 1,
+                "right": 1
+            },
+            "scrollbar": {
+                "ch": " "
+            },
+            "style": {
+                "scrollbar": {
+                    "inverse": true
+                },
+                 "selected": {
+                        "bg": "blue"
+                    },
+                   "item": {
+                        "bg": "blue"
+                    }
+            },
         },
         "branchbox": {
             "bottom": 3,

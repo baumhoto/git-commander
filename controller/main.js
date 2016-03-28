@@ -38,6 +38,10 @@ var main = {
     view.list.unstaged.focus();
     redraw();
   },
+  
+  moveToDiff: function(index) {
+      view.textarea.focus();
+  },
 
   next: function () {
     this.move(1);
@@ -115,6 +119,8 @@ var main = {
     main.setItems();
 
     main.moveToUnstaged(0);
+    
+    main.updateDiff();
 
     view.loading.stop();
 
@@ -170,7 +176,24 @@ var main = {
   hidePopup: function () {
     view.popup.hidden = true;
     redraw();
-  }
+  },
+  colorFormat: function (diffText) {
+    return diffText
+      .replace(/(^\-.*$)/gm, "{red-fg}$1{/red-fg}")
+      .replace(/(^\+.*$)/gm, "{green-fg}$1{/green-fg}")
+      .replace(/(^@@.*$)/gm, "{cyan-fg}$1{/cyan-fg}");
+  },
+  updateDiff: function () {
+    var diffText = git.diff(
+      view.screen.focused.name,
+      view.screen.focused.selected
+    );
+
+    view.textarea.resetScroll();
+    view.textarea.setContent(diff.colorFormat(diffText));
+
+    redraw();
+  },
 };
 
 // bind editor
@@ -184,6 +207,7 @@ diff.init(main);
 
 // bind branch viewer
 branch.init(main);
+
 
 // bind keys
 // TODO: Need to refactor
@@ -199,6 +223,18 @@ _.each(view.list, function (elem) {
 
   elem.key(config.keys.common.quit, function () {
     return process.exit(0);
+  });
+  
+  elem.key('j', function () {
+    elem.down(1);
+    main.updateDiff();
+    redraw();
+  });
+  
+  elem.key("k", function () {
+    elem.up(1);
+    main.updateDiff();
+    redraw();
   });
 
   elem.key(config.keys.common.pageUp, function () {
@@ -273,6 +309,36 @@ _.each(view.list, function (elem) {
   elem.key(config.keys.main.leftPane, function () {
     main.moveToUnstaged();
   });
+  
+  elem.key('d', function () {
+        main.moveToDiff();
+  });
 });
+
+view.textarea.key('d', function () {
+        if(view.list.unstaged.interactive)
+        {
+            view.list.unstaged.focus();
+        }
+        else
+        {
+            view.list.staged.focus();
+        }
+});
+
+view.textarea.key(config.keys.common.quit, function () {
+         return process.exit(0);
+    });
+
+    view.textarea.key(config.keys.common.pageUp, function () {
+      view.textarea.scroll(-view.textarea.height || -1);
+      redraw();
+    });
+
+    view.textarea.key(config.keys.common.pageDown, function () {
+      view.textarea.scroll(view.textarea.height || 1);
+      redraw();
+    });
+
 
 module.exports = main;
