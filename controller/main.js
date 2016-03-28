@@ -184,6 +184,10 @@ var main = {
       .replace(/(^@@.*$)/gm, "{cyan-fg}$1{/cyan-fg}");
   },
   updateDiff: function () {
+
+     if(view.screen.focused.ritems.length == 0)
+        return;
+
     var diffText = git.diff(
       view.screen.focused.name,
       view.screen.focused.selected
